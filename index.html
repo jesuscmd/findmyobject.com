@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es" ng-app="findMyObjectApp">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Find my object</title>
+	<link rel="shortcut icon" href="img/icono.png"/>	
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" href="css/slidebars.min.css">
+	<link rel="stylesheet" href="css/slidebarsStyles.css">
+	<link rel="stylesheet" href="css/custom.css">
+</head>
+<body ng-controller="mainController">
+
+	<div id="sb-site">
+		
+		<div class="navbar navbar-default navbar-static-top" role="navigation">
+	      <div class="container">
+	        <div class="navbar-header">
+				<button type="button" class="navbar-toggle sb-open-right" >
+				  <span class="sr-only">Toggle navigation</span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">
+					<img src="/img/logoHeader.png" class="logoHeader">
+				</a>
+		    </div>
+	        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+	          	<ul class="nav navbar-nav">
+		            <li class="dropdown">
+						<a href="/" class="dropdown-toggle" data-toggle="dropdown">
+			      			<span class="glyphicon glyphicon-envelope"></span> Mensajes <span class="badge notificacion" ng-if="mensajes.length > 0">{{mensajes.length}}</span> <!-- <b class="caret"></b> -->
+			            </a> 
+		              	<ul class="dropdown-menu" role="menu">
+			                <li ng-repeat-start="mensaje in mensajes">
+					        	<a href="" ng-click="cambiarMensajeStatus(mensaje);" ng-class="{'nuevoMensaje' : mensaje.id_cat_estatus_notificaciones == 1 }">{{mensaje.descripcion | limitTo: 18}}...</a>
+					      	</li >
+					      	<li ng-repeat-end="" class="hidden"></li>
+					      	<li class="divider" ng-if="mensajes.length > 0"></li>	
+					        <li><a href="#mensajes">Todos los mensajes</a></li>
+		              	</ul>
+		            </li>
+
+		            <li class="dropdown">
+		              	<a href="" class="dropdown-toggle" data-toggle="dropdown">
+			        		<span class="glyphicon glyphicon-bullhorn"></span> Notificaciones <span class="badge notificacion" ng-if="coincidencias.length > 0">{{coincidencias.length}}</span> <!-- <b class="caret"></b> -->
+			        	</a>
+		              	<ul class="dropdown-menu" role="menu">
+			        		<li ng-repeat-start="coincidencia in coincidencias">
+					        	<a href="" ng-click="cambiarCoincidenciaEstatus(coincidencia);" ng-class="{'nuevoMensaje' : coincidencia.id_cat_estatus_notificaciones == 1 }">{{coincidencia.descripcion | limitTo: 18}}...</a>
+					      	</li >
+					      	<li ng-repeat-end="" class="hidden"></li>
+						</ul>
+		            </li>
+
+	        	</ul>
+
+	        	<ul class="nav navbar-nav visible-xs">
+	            	<li class="dropdown">
+	              		<!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		        			<span class="glyphicon glyphicon-user"></span> Cuenta <b class="caret"></b>
+		        		</a> -->
+
+		        		<!-- <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> 
+		        			Dropdown <span class="caret"></span>
+	  					</a> -->
+
+	  					<!-- <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						   	<li><a href="#/preferencias">Preferencias</a></li>
+							<li><a href="">Ayúda</a></li>
+							<li class="divider"></li>
+							<li><a href="" ng-click="cerrarSesion()">Cerrar Sesión</a></li>
+						</ul> -->
+		              	<!-- <ul class="dropdown-menu" role="menu">
+			        		<li><a href="#/preferencias">Preferencias</a></li>
+							<li><a href="">Ayúda</a></li>
+							<li class="divider"></li>
+							<li><a href="" ng-click="cerrarSesion()">Cerrar Sesión</a></li>
+						</ul> -->
+	            	</li>
+	          	</ul>
+
+
+	        	<ul class="nav navbar-nav navbar-right">
+	            	<li class="dropdown">
+	              		<a href="" class="dropdown-toggle" data-toggle="dropdown">
+		        			<span class="glyphicon glyphicon-user"></span> Cuenta <b class="caret"></b>
+		        		</a>
+		              	<ul class="dropdown-menu" role="menu">
+			        		<li><a href="#/preferencias">Preferencias</a></li>
+							<li><a href="">Ayúda</a></li>
+							<li class="divider"></li>
+							<li><a href="" ng-click="cerrarSesion()">Cerrar Sesión</a></li>
+						</ul>
+	            	</li>
+	          	</ul>
+	        </div>
+	      </div>
+	    </div>
+
+		<div class="container container-fluid">
+			<div class="row">
+				<div class="col-md-3 hidden-xs panelLateral">
+
+					<div class="row">
+						<div class="col-md-12 panelMenu">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="perfil">
+										<img src="img/usuario.png" class="usuarioImagen">
+										<div class="nombreUsuario">
+											<div>
+												{{usuarioDatos.nombre}} {{usuarioDatos.paterno}} {{usuarioDatos.materno}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<a href="#/preferencias">Editar mi perfil</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 panelMenu panelEstadistica">
+							<div class="row reportados">
+								<div class="col-md-6 panDere">
+									<a href="#/articulos/reportados">
+										<span class="Rockwell numeral">{{articulos.length}}</span>
+										<p>artículos reportados</p>
+									</a>
+								</div>
+								<div class="col-md-6 panIzq">
+									<a href="#/articulos/encontrados">
+										<span class="Rockwell numeral">{{articulos2.length}}</span>
+										<p>artículos encontrados</p>
+									</a>
+								</div>
+							</div>
+							<div class="row coincidencias">
+								<div class="col-md-12">
+									<div class="inner">
+										<span class="Rockwell numeral">{{contador}}</span> coincidencias
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 panelMenu">
+							<ul class="menuLateral">
+								<li><a href="#/reporte/robo">Reportar robo</a></li>
+								<li><a href="#/reporte/hallazgo">Reportar hallazgo</a></li>
+								<li><a href="#/robosreportados">Robos reportados</a></li>
+								<li><a href="#/hallazgosreportados">Hallazgos reportados</a></li>
+							</ul>
+						</div>
+						<div class="col-md-12 panelMenu">
+							<ul class="menuLateral">
+								<li><a href="#/quienessomos">Quienes somos</a></li>
+								<li><a href="#/contacto">Contacto</a></li>
+								<li><a href="#/aviso">Aviso de privacidad</a></li>
+								<li><a href="#/terminos">Términos y condiciones</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-9 contenedor">
+					<div ng-view></div>
+				</div>
+			</div>
+			
+			<hr>
+			<footer>
+	        	<p>© Find my Object | <a href="#/quienessomos"> Quiénes somos</a> | <a href="#/contacto">Contacto</a> | <a href="#/aviso"> Aviso de privacidad | <a href="#/terminos"> Términos y condiciones</a></p>
+	      	</footer>
+		</div>
+	</div>
+
+	<div class="sb-slidebar sb-right">
+
+		<nav>
+			<ul class="sb-menu">
+
+				<div class="perfil">
+					<img src="img/usuario.png" class="usuarioImagen">
+					<div class="nombreUsuario">
+						<div>
+							{{usuarioDatos.nombre}} {{usuarioDatos.paterno}} {{usuarioDatos.materno}}
+						</div>
+					</div>
+				</div>
+
+				<li><a class="sb-toggle-submenu">Mi cuenta <span class="sb-caret"></span></a>
+					<ul class="sb-submenu" style="display: none;">
+
+						<li class="sb-close">
+							<a href="#/preferencias">Editar mi perfil</a>
+							<a href="#">Ayuda</a>
+						</li>
+						
+					</ul>
+				</li>
+
+
+				<li ng-show="mensajes.length > 0">
+
+					<a class="sb-toggle-submenu">Mensajes recientes<span class="sb-caret"></span></a>
+
+					<ul class="sb-submenu" style="display: none;">
+						<li class="sb-close" ng-repeat-start="mensaje in mensajes">
+					        	<a href="" ng-click="cambiarMensajeStatus(mensaje);" ng-class="{'nuevoMensaje' : mensaje.id_cat_estatus_notificaciones == 1 }">{{mensaje.descripcion | limitTo: 18}}...</a>
+					    </li >
+					    <li ng-repeat-end="" class="hidden"></li>
+					</ul>
+				</li>
+
+				<li class="sb-close"><a href="#/mensajes">Mis mensajes</a></li>
+
+
+
+				<li ng-show="mensajes.length > 0">
+
+					<a class="sb-toggle-submenu">Mensajes recientes<span class="sb-caret"></span></a>
+
+					<ul class="sb-submenu" style="display: none;">
+						<li class="sb-close" ng-repeat-start="mensaje in mensajes">
+					        	<a href="" ng-click="cambiarMensajeStatus(mensaje);" ng-class="{'nuevoMensaje' : mensaje.id_cat_estatus_notificaciones == 1 }">{{mensaje.descripcion | limitTo: 18}}...</a>
+					    </li >
+					    <li ng-repeat-end="" class="hidden"></li>
+					</ul>
+				</li>
+
+
+
+				<ul class="dropdown-menu" role="menu">
+			        		<li ng-repeat-start="coincidencia in coincidencias">
+					        	<a href="" ng-click="cambiarCoincidenciaEstatus(coincidencia);" ng-class="{'nuevoMensaje' : coincidencia.id_cat_estatus_notificaciones == 1 }">{{coincidencia.descripcion | limitTo: 18}}...</a>
+					      	</li >
+					      	<li ng-repeat-end="" class="hidden"></li>
+						</ul>
+
+
+
+				<li>
+
+					<a class="sb-toggle-submenu">Artículos<span class="sb-caret"></span></a>
+
+					<ul class="sb-submenu" style="display: none;">
+						<li class="sb-close"><a href="#/">Últimos reportados</a></li>
+						<li class="sb-close"><a href="#/articulos/reportados">Artículos reportados</a></li>
+
+						<li class="sb-close"><a href="#/articulos/encontrados">Artículos encontrados</a></li>
+					</ul>
+
+				</li>
+
+				
+				
+
+				<li>
+					<a class="sb-toggle-submenu">Reportes<span class="sb-caret"></span></a>
+					<ul class="sb-submenu" style="display: none;">
+						<li class="sb-close"><a href="#/reporte/robo">Reportar robo</a></li>
+						<li class="sb-close"><a href="#/reporte/hallazgo">Reportar hallazgo</a></li>
+						<li class="sb-close"><a href="#/robosreportados">Robos reportados</a></li>
+						<li class="sb-close"><a href="#/hallazgosreportados">Hallazgos reportados</a></li>
+
+					</ul>
+				</li>
+
+				<li>
+					<a class="sb-toggle-submenu">Sobre nosotros<span class="sb-caret"></span></a>
+					<ul class="sb-submenu" style="display: none;">
+						<li class="sb-close"><a href="#/quienessomos">Quiénes somos</a></li>
+						<li class="sb-close"><a href="#/contacto">Contacto</a></li>
+						<li class="sb-close"><a href="#/aviso">Aviso</a></li>
+						<li class="sb-close"><a href="#/terminos">Términos y condiciones</a></li>
+					</ul>
+				</li>	
+				
+				<li class="sb-close"><a href="" ng-click="cerrarSesion()">Cerrar Sesión</a></li>
+
+			</ul>
+		</nav>
+
+	</div>
+    
+    <!-- image fix -->
+    <!-- <script src="../bower_components/es5-shim/es5-shim.js"></script> -->
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+
+	<script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+	<script type="text/javascript" src="js/angular-file-upload.min.js"></script>
+	<script type="text/javascript" src="js/angular-animate.min.js"></script>
+	<script type="text/javascript" src="js/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="js/angular-resource.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.min.js"></script>
+	
+	<script type="text/javascript" src="js/controllers.js"></script>
+	<script type="text/javascript" src="js/apps.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+
+    <!-- Slidebars -->
+    <script type="text/javascript" src="js/slidebars.min.js"></script>
+    <script>
+      (function($) {
+        $(document).ready(function() {
+          $.slidebars();
+        });
+
+        // Slidebars Submenus
+      $('.sb-toggle-submenu').off('click').on('click', function() {
+        $submenu = $(this).parent().children('.sb-submenu');
+        $(this).add($submenu).toggleClass('sb-submenu-active'); // Toggle active class.
+        
+        if ($submenu.hasClass('sb-submenu-active')) {
+          $submenu.slideDown(200);
+        } else {
+          $submenu.slideUp(200);
+        }
+      });
+
+
+      }) (jQuery);
+    </script>
+
+</body>
+</html>
