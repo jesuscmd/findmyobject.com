@@ -1,0 +1,133 @@
+
+<!-- saved from url=(0048)http://findmyobject.com/templates/dashboard.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><div class="row tituloSeccion">
+	<div class="col-md-8">
+		<h1>ÚLTIMOS OBJETOS REPORTADOS</h1>
+	</div>
+	<div class="col-md-4">
+		<div class="input-group buscador">
+			<input type="search" class="form-control" placeholder="Buscar" ng-model="buscadorArticulos">
+			<span class="input-group-btn">
+		        <button ng-disabled="buscadorEncendido != true" class="btn btn-default" type="button" ng-click="apagarBuscador()">
+		        	<i class="glyphicon glyphicon-remove"></i>
+		        </button>
+		    </span>
+		</div>
+	</div>
+</div>
+
+<div class="contendidoInner dashboard">
+	
+	<div ng-show="buscadorEncendido == true">
+		<p></p>
+		<h4>Resultados de la búsqueda</h4>
+		<p></p>
+		<div ng-show="busquedaCompleta != true">
+	  		<p>&nbsp;</p>
+	  		<p>Buscando coincidencias</p>
+		  	<div class="progress progress-striped active">
+				<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+				</div>
+			</div>
+		</div>
+		<div ng-show="busquedaCompleta == true">
+			<p>&nbsp;</p>
+			<div ng-if="arrayEncotrados.length == 0">
+				<div class="alert alert-warning">
+					<span class="glyphicon glyphicon-question-sign"></span> No hay resultados para <strong>"{{buscadorArticulos}}"</strong>
+				</div>
+			</div>
+			<div class="row">
+				<div ng-repeat="articulo in arrayEncotrados">
+					<div class="col-xs-6 col-sm-3 col-md-3">
+						<div class="thumbnail" ng-class="{&#39;encontrado&#39; : articulo.FMO_COINCIDENCIAS.length &gt; 0 &amp;&amp; articulo.id_usuario == currentUser}">
+							<a href="http://findmyobject.com/templates/dashboard.html#/articulo/{{articulo.id}}">
+								<div ng-if="articulo.FMO_ARTICULO_IMAGEN.length == 0">
+								    <img src="./dashboard_files/product-default.jpg" alt="No hay imagen disponible" class="img-thumbnail img-responsive center-block">
+								</div>
+									<img ng-if="articulo.FMO_ARTICULO_IMAGEN.length &gt; 0" class="img-thumbnail img-responsive center-block" src="./dashboard_files/{{articulo.FMO_ARTICULO_IMAGEN[0].url_foto}}">
+								<p>
+									<strong>{{articulo.descripcion}}</strong><br>
+									{{articulo.marca}}, {{articulo.modelo}}
+								</p>
+								<div ng-if="articulo.FMO_ARTICULO_IMAGEN.length &gt; 0">
+									<p><small><span class="badge">{{articulo.FMO_ARTICULO_IMAGEN.length}}</span> imagenes</small></p>
+									
+								</div>
+								<p>
+									<small>
+									{{articulo.FMO_IDENTIFICADOR_ARTICULO[0].descripcion}}
+									<br>
+									{{articulo.FMO_IDENTIFICADOR_ARTICULO[0].identificador | limitTo : 16}}<span ng-if="articulo.FMO_IDENTIFICADOR_ARTICULO[0].identificador.length&gt;16">...</span>
+									</small>
+								</p>
+								<div ng-if="articulo.id_cat_recompensa == 1">
+									<p><span class="label label-default"><span class="glyphicon glyphicon-usd"></span></span>  <small>Recompensa</small></p>
+								</div>
+							</a>
+						</div>
+					</div>
+					<div ng-if="articulo.newRow == true">
+						<div class="clearfix visible-xs"></div>
+					</div>
+					<div ng-if="articulo.newRowMobile == true &amp;&amp; articulo.newRow == true">
+						<div class="clearfix visible-xs visible-md visible-sm"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="buscadorEncendido != true">
+
+      	<div ng-show="loadedRecientes != true">
+      		<p></p>
+		  	<div class="progress progress-striped active">
+				<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+				</div>
+			</div>
+		</div>
+		<div ng-if="loadedRecientes">
+			<p></p>
+			<div class="row previewArticulos">
+				<div ng-repeat="articulo in articulos3">
+					<div class="col-xs-6 col-sm-3 col-md-3 itemPreview">
+						<a href="http://findmyobject.com/templates/dashboard.html#/articulo/{{articulo.id}}">
+							<div ng-if="articulo.FMO_COINCIDENCIAS.length &gt; 0 &amp;&amp; articulo.id_usuario == currentUser" class="previeImagen encontrado"></div>
+
+
+							<div ng-if="articulo.FMO_ARTICULO_IMAGEN.length == 0" class="previeImagen" style="background-image:url(/img/product-default.jpg)"></div>
+							<div ng-if="articulo.FMO_ARTICULO_IMAGEN.length &gt; 0" class="previeImagen" style="background-image:url({{articulo.FMO_ARTICULO_IMAGEN[0].url_foto}})"></div>
+							<p class="datosPreview">
+								{{articulo.descripcion}}<br>
+								{{articulo.marca}}, {{articulo.modelo}}<br>
+								{{articulo.FMO_IDENTIFICADOR_ARTICULO[0].descripcion}} :
+								{{articulo.FMO_IDENTIFICADOR_ARTICULO[0].identificador | limitTo : 16}}<span ng-if="articulo.FMO_IDENTIFICADOR_ARTICULO[0].identificador.length&gt;16">...</span>
+							</p>
+							<p class="detalleDerecha">
+								<span class="glyphicon glyphicon-camera camaraItem"></span> {{articulo.FMO_ARTICULO_IMAGEN.length}}
+							</p>
+							<p class="detalleIzquierda" ng-if="articulo.id_cat_recompensa == 1">Recompensa</p>
+						</a>
+					</div>
+					<div ng-if="articulo.newRow == true">
+						<div class="clearfix visible-xs"></div>
+					</div>
+					<div ng-if="articulo.newRowMobile == true &amp;&amp; articulo.newRow == true">
+						<div class="clearfix visible-xs visible-md visible-sm"></div>
+					</div>
+				</div>
+				<div ng-if="articulos3.length == 0" class="col-md12">
+					<div class="alert alert-warning">
+						<span class="glyphicon glyphicon-question-sign"></span> Aún no hay artículos reportados"
+					</div>
+				</div>
+			</div>
+		</div>
+	      
+	</div>
+
+</div>
+
+
+</body></html>

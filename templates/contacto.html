@@ -1,0 +1,78 @@
+
+<!-- saved from url=(0047)http://findmyobject.com/templates/contacto.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><div class="row tituloSeccion">
+	<div class="col-md-12">
+		<h1>CONTACTO</h1>
+	</div>
+</div>
+<div class="contendidoInner contacto">
+	<div class="row">
+		<div class="col-md-12">
+			<div ng-show="cargandoInfoFinalizado != true">
+				<h3><small>Cargando información</small></h3>
+				<div class="progress progress-striped active">
+					<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+					</div>
+				</div>
+			</div>
+
+			<div ng-show="cargandoInfoFinalizado == true">
+				
+				<div ng-show="contactoSubmit == true &amp;&amp; mensajeEnviado !=true">
+					<h3><small>Enviando mensaje</small></h3>
+					<div class="progress progress-striped active">
+						<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+						</div>
+					</div>
+				</div>
+				<div ng-show="mensajeEnviado == true">
+					<div class="alert alert-success">
+						<span class="glyphicon glyphicon-ok"></span> Mensaje enviando
+					</div>
+				</div>
+				<div ng-show="contactoSubmit != true">
+					<form name="contacto" role="form" ng-submit="contactar()" novalidate="">
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<div class="form-group has-feedback" ng-class="{&#39;has-error&#39; : contacto.nombre.$invalid &amp;&amp; !contacto.nombre.$pristine, &#39;has-success&#39; : !contacto.nombre.$invalid &amp;&amp; usuario.nombre.length != 0}">
+									<label for="nombreContacto">Nombre</label>
+								    <input id="nombreContacto" name="nombre" ng-model="usuario.nombre" type="text" class="form-control" ng-minlength="3" required="">
+								    <span ng-if="!contacto.nombre.$invalid" class="glyphicon glyphicon-ok form-control-feedback"></span>
+								</div><!-- form-group-->
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<div class="form-group has-feedback" ng-class="{&#39;has-error&#39; : contacto.email.$invalid &amp;&amp; !contacto.email.$pristine, &#39;has-success&#39; : !contacto.email.$invalid &amp;&amp; usuario.email.length != 0}">
+									<label for="emailContacto">E-mail</label>
+								    <input id="emailContacto" name="email" ng-model="usuario.email" type="email" class="form-control" required="">
+								    <span ng-if="!contacto.email.$invalid" class="glyphicon glyphicon-ok form-control-feedback"></span>
+								</div><!-- form-group-->
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<div class="form-group has-feedback" ng-class="{&#39;has-error&#39; : contacto.mensaje.$invalid &amp;&amp; !contacto.mensaje.$pristine, &#39;has-success&#39; : !contacto.mensaje.$invalid &amp;&amp; usuario.mensaje.length != 0}">
+									<label for="mensajeContacto">Mensaje</label>
+								    <textarea id="mensajeContacto" name="mensaje" ng-model="usuario.mensaje" type="text" class="form-control" ng-minlength="3" rows="4" required="">								    </textarea>
+								    <span ng-if="!contacto.mensaje.$invalid" class="glyphicon glyphicon-ok form-control-feedback"></span>
+								</div><!-- form-group-->
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-4 col-md-4">
+								<button type="submit" class="btn btn-primary btn-block" ng-disabled="contacto.$invalid || contactoSubmit == true">
+									<span class="glyphicon glyphicon-ok"></span> 
+									<span>
+										Enviar mensaje
+									</span>
+								</button>
+							</div>
+						</div><!-- row -->
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+</body></html>

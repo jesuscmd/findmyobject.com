@@ -1,0 +1,75 @@
+
+<!-- saved from url=(0051)http://findmyobject.com/templates/preferencias.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><div class="row tituloSeccion">
+	<div class="col-md-8">
+		<h1>PREFERENCIAS</h1>
+	</div>
+</div>
+<div class="contendidoInner preferencias">
+	<div class="row">
+		
+		<div class="col-md-12">
+			<div class="alert alert-success" ng-show="form_success">Se han guardado correctamente tus cambios</div>
+			<form class="form" role="form" name="Preferencias" ng-submit="modificarPreferencias()" novalidate="">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group col-md-12" ng-class="{&#39;has-error&#39; : Preferencias.usuario_username.$invalid &amp;&amp; !Preferencias.usuario_username.$pristine }">
+						   <label>Usuario</label>
+						   <input type="text" class="form-control" name="usuario_username" ng-model="usuario_username" ng-value="usuario_username" ng-minlength="3" required="">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group col-md-12" ng-class="{ &#39;has-error&#39; : Preferencias.usuario_email.$invalid || !Preferencias.usuario_email.$pristine}">
+						   <label>Email</label>
+						   <input type="email" class="form-control" name="usuario_email" ng-model="usuario_email" ng-value="usuario_email" required="">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group col-md-12" ng-class="{&#39;has-error&#39; : Preferencias.usuario_nombre.$invalid &amp;&amp; !Preferencias.usuario_nombre.$pristine }">
+						   <label>Nombre</label>
+						   <input type="text" class="form-control" name="usuario_nombre" ng-model="usuario_nombre" value="usuario_nombre" ng-minlength="3" required="">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group col-md-12" ng-class="{&#39;has-error&#39; : Preferencias.usuario_paterno.$invalid &amp;&amp; !Preferencias.usuario_paterno.$pristine }">
+						   <label>Apellido Paterno</label>
+						   <input type="text" class="form-control" name="usuario_paterno" ng-model="usuario_paterno" ng-value="usuario_paterno" ng-minlength="3" required="">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group col-md-12" ng-class="{&#39;has-error&#39; : Preferencias.usuario_materno.$invalid &amp;&amp; !Preferencias.usuario_materno.$pristine }">
+						   <label>Apellido Materno</label>
+						   <input type="text" class="form-control" name="usuario_materno" ng-model="usuario_materno" ng-value="usuario_materno" ng-minlength="3" required="">
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group col-md-12">
+						   <label>Nueva Contraseña</label>
+						   <input type="password" class="form-control" name="usuario_password_1" ng-model="usuario_password_1">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group col-md-12" ng-class="{&#39;has-error&#39; : invalid_password}">
+						   <label>Repetir contraseña</label>
+						   <input type="password" class="form-control" name="usuario_password_2" ng-model="usuario_password_2">
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="form-group col-md-12">
+						<button type="submit" class="btn btn-primary col-md-12" ng-disabled="Preferencias.$invalid || invalid_password"><span class="glyphicon glyphicon-ok"></span> Guardar cambios</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body></html>

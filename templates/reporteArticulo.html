@@ -1,0 +1,206 @@
+
+<!-- saved from url=(0054)http://findmyobject.com/templates/reporteArticulo.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><div class="row tituloSeccion">
+	<div class="col-md-12">
+		<h1>DETALLES DEL ARTÍCULO</h1>
+	</div>
+</div>
+<div class="contendidoInner detallesArticulo">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div ng-show="cargandoReporteFinalizado != true">
+				<h3><small>Cargando información</small></h3>
+				<div class="progress progress-striped active">
+					<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+					</div>
+				</div>
+			</div>
+
+			<div ng-show="cargandoReporteFinalizado == true">
+
+				<div ng-if="articulo.FMO_COINCIDENCIAS.length &gt; 0 &amp;&amp; currentUserId == articulo.id_usuario">
+					<div class="jumbotron">
+						<h2 class="text-primary">
+							<span class="glyphicon glyphicon-globe"></span>
+							<strong>Artículo encontrado!!</strong>
+						</h2>
+						<p class="text-primary">
+							Existen coincidencias en la base de datos.
+						</p>
+						<div class="row">
+							<div ng-repeat="(id, identificador) in articulo.FMO_COINCIDENCIAS">
+								<div class="col-xs-12 col-sm-4 col-md-4">
+									<p class="text-center"><small>Coincidencia {{id + 1}}</small></p>
+									<a class="btn btn-primary btn-sm btn-block" href="http://findmyobject.com/templates/reporteArticulo.html#/mensajes/enviar/{{identificador.id_usuario_art1}}" role="button">
+										<span class="glyphicon glyphicon-globe"></span>
+										Enviar mensaje
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel" ng-class="{&#39;panel-primary&#39;: articulo.id_usuario == currentUserId, &#39;panel-default&#39; : articulo.id_usuario != currentUserId}">
+					<div class="panel-heading">
+						Artículo
+						<button ng-show="articulo.id_usuario == currentUserId" ng-click="editar(articulo.id)" type="button" class="close">
+							<span class="glyphicon glyphicon-edit"></span>
+						</button>
+					</div>
+			  		<ul class="list-group list-info">
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-12 col-sm-8 col-md-8">
+									<h5 class="leyenda"><small>Descripción</small></h5>
+									<h4>{{articulo.descripcion}}</h4>
+								</div>
+								<div class="col-xs-12 col-sm-4 col-md-4">
+									<h5 class="leyenda"><small>Estatus del artículo</small></h5>
+									<h5>
+										<p ng-if="articulo.FMO_COINCIDENCIAS.length &gt; 0" class="text-primary">
+											<span class="glyphicon glyphicon-ok"></span>
+											 Encontrado
+										</p>
+										<p ng-if="articulo.FMO_COINCIDENCIAS.length == 0" class="text-warning">
+											<span class="glyphicon glyphicon-warning-sign"></span>
+											 Perdido
+										</p>
+									</h5>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-4 col-md-4">
+									<h5 class="leyenda"><small>Marca</small></h5>
+									<h5>{{articulo.marca}}</h5>
+								</div>
+								<div class="col-xs-6 col-sm-4 col-md-4">
+									<h5 class="leyenda"><small>Modelo</small></h5>
+									<h5>{{articulo.modelo}}</h5>
+								</div>
+								<div class="col-xs-6 col-sm-4 col-md-4" ng-if="marcaRedundante != true">
+									<h5 class="leyenda"><small>Clasificación</small></h5>
+									<h5>{{articulo.FMO_CAT_ARTICULO.descripcion}}</h5>
+								</div>
+								<div class="col-xs-6 col-sm-4 col-md-4" ng-if="marcaRedundante == true">
+									<h5 class="leyenda"><small>Fecha del {{reporte.FMO_CAT_REPORTE.descripcion}}</small></h5>
+									<h5><strong>{{reporte.fecha_reporte |  date:'dd-MM-yyyy' }}</strong></h5>
+								</div>
+							</div>
+							<h5 class="leyenda"><small><strong>IDENTIFICADORES</strong></small></h5>
+							<div class="row">
+								<div ng-repeat="identificador in articulo.FMO_IDENTIFICADOR_ARTICULO">
+									<div class="col-xs-6 col-sm-4 col-md-4">
+										<h5 class="leyenda"><small>{{identificador.descripcion}}</small></h5>
+										<h5>{{identificador.identificador}}</h5>
+									</div>
+								</div>
+							</div>
+							<div ng-if="articulo.FMO_ARTICULO_IMAGEN.length &gt; 0">
+								<h5 class="leyenda"><small>IMÁGENES</small></h5>
+								<br>
+							</div>
+							<!-- <p>&nbsp;</p> -->
+							<div class="row">
+								<div ng-repeat="(id, imagen) in articulo.FMO_ARTICULO_IMAGEN">
+									<div class="col-xs-6 col-sm-3 col-md-3">
+										<a href="" ng-click="lanzarImagen(articulo.descripcion, imagen.url_foto)">
+											<img class="img-responsive img-thumbnail" src="./reporteArticulo_files/{{imagen.url_foto}}">
+										</a>
+									</div>
+									<div ng-if="(id + 1) % 2 == 0 &amp;&amp; (id + 1) % 4 != 0 ">
+										<div class="clearfix visible-xs"></div>
+									</div>
+									<div ng-if="(id + 1) % 2 == 0 &amp;&amp; (id + 1) % 4 == 0">
+										<div class="clearfix visible-xs visible-md visible-sm"></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="panel-footer" ng-if="articulo.id_cat_recompensa == 1">
+						<p class="text-primary text-center">Recompensa de {{ articulo.monto | currency }}</p>
+					</div>
+				</div>
+				
+				<div class="panel" ng-class="{&#39;panel-info&#39;: articulo.id_usuario == currentUserId, &#39;panel-default&#39; : articulo.id_usuario != currentUserId}">
+					<div class="panel-heading">
+						Detalles del {{reporte.FMO_CAT_REPORTE.descripcion}}
+						<button ng-show="articulo.id_usuario == currentUserId" ng-click="editarReporte(reporte.FMO_CAT_REPORTE.descripcion,reporte.id)" type="button" class="close">
+							<span class="glyphicon glyphicon-edit"></span>
+						</button>
+					</div>
+					<div class="panel-body">
+					    <div class="row">
+							<div class="col-sm-8 col-md-8">
+								<h5 class="leyenda"><small>Descripción</small></h5>
+								<h5 class="text-muted">{{reporte.descripcion}}</h5>
+							</div>
+							<div class="col-sm-4 col-md-4">
+								<h5 class="leyenda"><small>Estatus del reporte</small></h5>
+								<h5 class="text-muted"><strong>{{reporte.FMO_CAT_ESTATUS_REPORTE.descripcion}}</strong></h5>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-4 col-md-4">
+								<div class="row">
+									<div class="col-xs-6 col-sm-12 col-md-12">
+										<h5 class="leyenda"><small>Colonia</small></h5>
+										<h5 class="text-muted">{{reporte.FMO_CP.colonia}}</h5>
+									</div>
+									<div class="col-xs-6 col-sm-12 col-md-12">
+										<h5 class="leyenda"><small>Código Postal</small></h5>
+										<h5 class="text-muted">{{reporte.FMO_CP.codigo}}</h5>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-8 col-md-8">
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<h5 class="leyenda"><small>Delegación o municipio</small></h5>
+										<h5 class="text-muted">{{reporte.delegacion}}</h5>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<h5 class="leyenda"><small>Estado</small></h5>
+										<h5 class="text-muted">{{reporte.estado}}</h5>
+									</div>
+									<div class="clearfix visible-xs"></div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<h5 class="leyenda"><small>Fecha del {{reporte.FMO_CAT_REPORTE.descripcion}}</small></h5>
+										<h5 class="text-muted"><strong>{{reporte.fecha_reporte |  date:'dd-MM-yyyy' }}</strong></h5>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<h5 class="leyenda"><small>Fecha de registro</small></h5>
+										<h5 class="text-muted">{{reporte.fecha_creacion |  date:'dd-MM-yyyy' }}</h5>
+									</div>
+									
+								</div>
+							</div>
+							<div class="col-md-12" ng-show="reporte.latitud != undefined">
+								<h5 class="leyenda"><small>Mapa de ubicación</small></h5>
+								<h5></h5>
+								<div id="map_canvasContaniner"></div>
+							</div>
+							<div class="col-md-12" ng-show="reporte.latitud == undefined">
+								<h5 class="leyenda"><small>Mapa de ubicación</small></h5>
+								<h5 class="text-muted">No existe ubicación</h5>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<p class="text-info text-center">
+							<a href="http://findmyobject.com/templates/reporteArticulo.html#/reporte/{{reporte.id}}">
+								<span class="glyphicon glyphicon-search"></span>
+								Ver el reporte completo
+							</a>
+						</p>
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+	</div>
+</div>
+</body></html>

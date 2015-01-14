@@ -1,0 +1,61 @@
+
+<!-- saved from url=(0058)http://findmyobject.com/templates/articulosReportados.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><div class="row tituloSeccion">
+	<div class="col-md-8">
+		<h1>ARTÍCULOS REPORTADOS</h1>
+	</div>
+</div>
+
+<div class="contendidoInner dashboard">
+	
+	<div ng-show="loadedRobados != true">
+  		<p></p>
+	  	<div class="progress progress-striped active">
+			<div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+			</div>
+		</div>
+	</div>
+  	
+	<div ng-if="loadedRobados">
+		<div class="row previewArticulos">
+			<div ng-repeat="articulo in articulos">
+				<div class="col-xs-6 col-sm-3 col-md-3 itemPreview">
+					<a href="http://findmyobject.com/templates/articulosReportados.html#/articulo/{{articulo.id}}">
+
+
+						<div ng-if="articulo.FMO_COINCIDENCIAS.length &gt; 0 &amp;&amp; articulo.id_usuario == currentUser" class="previeImagen encontrado"></div>
+
+
+						<div ng-if="articulo.FMO_ARTICULO_IMAGEN.length == 0" class="previeImagen" style="background-image:url(/img/product-default.jpg)"></div>
+						<div ng-if="articulo.FMO_ARTICULO_IMAGEN.length &gt; 0" class="previeImagen" style="background-image:url({{articulo.FMO_ARTICULO_IMAGEN[0].url_foto}})"></div>
+						<p class="datosPreview">
+							{{articulo.descripcion}}<br>
+							{{articulo.marca}}, {{articulo.modelo}}<br>
+							{{articulo.FMO_IDENTIFICADOR_ARTICULO[0].descripcion}} :
+							{{articulo.FMO_IDENTIFICADOR_ARTICULO[0].identificador | limitTo : 16}}<span ng-if="articulo.FMO_IDENTIFICADOR_ARTICULO[0].identificador.length&gt;16">...</span>
+						</p>
+						<p class="detalleDerecha">
+							<span class="glyphicon glyphicon-camera camaraItem"></span> {{articulo.FMO_ARTICULO_IMAGEN.length}}
+						</p>
+						<p class="detalleIzquierda" ng-if="articulo.id_cat_recompensa == 1">Recompensa</p>
+					</a>
+				</div>
+				<div ng-if="articulo.newRow == true">
+					<div class="clearfix visible-xs"></div>
+				</div>
+				<div ng-if="articulo.newRowMobile == true &amp;&amp; articulo.newRow == true">
+					<div class="clearfix visible-xs visible-md visible-sm"></div>
+				</div>
+			</div>
+			<div ng-if="articulos3.length == 0" class="col-md12">
+				<div class="alert alert-warning">
+					<span class="glyphicon glyphicon-question-sign"></span> Aún no hay artículos reportados"
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+</body></html>

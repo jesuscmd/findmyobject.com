@@ -1,0 +1,40 @@
+
+<!-- saved from url=(0053)http://findmyobject.com/templates/enviarMensajes.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><div class="row tituloSeccion">
+	<div class="col-md-12">
+		<h1>MENSAJES</h1>
+	</div>
+</div>
+<div class="contendidoInner mensajes">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="jumbotron">
+				<h2 class="text-primary">
+						<span class="glyphicon glyphicon-globe"></span>
+					<strong>¡Artículo encontrado!</strong>
+				</h2>
+				<p class="text-primary">
+					Está a punto de contactar al usuario que ha encontrado su artículo. Procure que su mensaje sea breve y conciso.
+				</p>
+				<div ng-show="mensajeEnviado != true">
+					<form role="form" name="mensajeDirectoForm" class="message-form" ng-submit="enviarMensajeDirecto()">
+						<div class="form-group" ng-class="{&#39;has-error&#39; : mensajeDirectoForm.primerMensaje.$invalid &amp;&amp; !mensajeDirectoForm.primerMensaje.$pristine }">
+							<textarea class="form-control" rows="3" placeholder="Escribe un nuevo mensaje" name="primerMensaje" ng-model="primerMensaje" ng-minlength="4" required=""></textarea>
+						</div><!-- form-group-->
+						<button type="submit" class="btn btn-default" ng-disabled="enviarMensajeDirectoSubmit == true || mensajeDirectoForm.$invalid"><span class="glyphicon glyphicon-envelope"></span> Enviar</button>
+					</form>
+				</div>
+				<div ng-show="mensajeEnviado==true">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="alert alert-success">
+								<span class="glyphicon glyphicon-ok"></span> Mensaje enviado
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .col-md-9 -->
+	</div><!-- row -->
+</div>
+</body></html>
